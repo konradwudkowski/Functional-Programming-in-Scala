@@ -120,6 +120,40 @@ class ListSpec extends FreeSpec with Matchers {
     flatten(List(List(1,2,3),List(4,5,6))) shouldBe List(1,2,3,4,5,6)
   }
 
+  // Ex 3.16
+  "function `add1` should add 1 to each element of a list" in {
+    add1(List(1,2,3)) shouldBe List(2,3,4)
+    add1(Nil) shouldBe Nil
+  }
+
+  // Ex 3.17
+  "function `doubleToString` should return a list of string given a list of doubles" in {
+    doubleToString(List(1.0, 2.0, 3.0)) shouldBe List("1.0", "2.0", "3.0")
+  }
+
+  // Ex 3.18
+  "function `map` should generalize modifying each element in a list while maintaining its structure" in {
+    map(List(1,2,3))(_ * 2) shouldBe List(2,4,6)
+    map(List(9,9,9))(_ < 5) shouldBe List(false,false,false)
+    map(Nil: List[Int])(_ + 1) shouldBe Nil
+  }
+
+  // Ex 3.19
+  "function `filter` should remove elements from a list that do not match a predicate" in {
+    filter(List(1, 2, 3))(_ < 2) shouldBe List(1)
+    filter(Nil: List[Int])(_ < 2) shouldBe Nil
+  }
+
+  // Ex 3.20
+  "function `flatMap` should work like map but flatten results into a single list" in {
+    flatMap(List(1,2,3))(x => List(x,x)) shouldBe List(1,1,2,2,3,3)
+  }
+
+  // Ex 3.21
+  "function `filterViaFlatMap` should work like `filter`" in {
+    filterViaFlatMap(List(1, 2, 3))(_ < 2) shouldBe List(1)
+    filterViaFlatMap(Nil: List[Int])(_ < 2) shouldBe Nil
+  }
 
 
 }

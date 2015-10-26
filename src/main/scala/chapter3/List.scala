@@ -107,4 +107,37 @@ object List {
     (acc,currentList) => appendList(acc,currentList)
   }
 
+  // Ex 3.16
+  def add1(list: List[Int]): List[Int] =
+    foldRight(list, Nil: List[Int])( (current,acc) => Cons(current + 1, acc))
+
+  // Ex 3.17
+  def doubleToString(list: List[Double]): List[String] =
+    foldRight(list, Nil: List[String])( (current,acc) => Cons(current.toString, acc))
+
+  // Ex 3.18
+  def map[A,B](as: List[A])(f: A => B): List[B] =
+    foldRight(as, Nil: List[B])( (current,acc) => Cons( f(current), acc))
+
+  // Ex 3.19
+  def filter[A](as: List[A])(f: A => Boolean) =
+    foldRight(as, Nil: List[A])( (current, acc) => if ( f(current) ) Cons(current, acc) else acc )
+
+  // Ex 3.20
+  def flatMap[A,B](as: List[A])(f: A => List[B]): List[B] =
+    foldLeft(as, Nil: List[B])( (acc, current) => appendList(acc,f(current)))
+
+  // Ex 3.21
+  def filterViaFlatMap[A](as: List[A])(f: A => Boolean) = flatMap(as)(x => if(f(x)) List(x) else Nil)
 }
+
+
+
+
+
+
+
+
+
+
+
