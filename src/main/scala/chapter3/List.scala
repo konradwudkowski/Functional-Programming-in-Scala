@@ -129,6 +129,30 @@ object List {
 
   // Ex 3.21
   def filterViaFlatMap[A](as: List[A])(f: A => Boolean) = flatMap(as)(x => if(f(x)) List(x) else Nil)
+
+  // Ex 3.22
+  def addCorrespondingElements(firstList: List[Int], secondList: List[Int]): List[Int] =
+    (firstList, secondList) match {
+      case (Nil, _) => Nil
+      case (_, Nil) => Nil
+      case (Cons(x, xs), Cons(y, ys)) => Cons(x + y, addCorrespondingElements(xs, ys))
+    }
+
+  // Ex 3.23
+  def zipWith[A, B](firstList: List[A], secondList: List[A])(f: (A, A) => B): List[B] =
+    (firstList, secondList) match {
+      case (Nil, _) => Nil
+      case (_, Nil) => Nil
+      case (Cons(x, xs), Cons(y, ys)) => Cons(f(x, y), zipWith(xs, ys)(f))
+    }
+
+  // Ex 3.24
+  def hasSubsequence[A](sup: List[A], sub: List[A]): Boolean = sup match {
+    case Nil => false
+    case Cons(x,xs) =>
+      foldLeft(zipWith(sup,sub)(_ == _), true)( (acc, current) => current && acc) || hasSubsequence(xs,sub)
+  }
+
 }
 
 

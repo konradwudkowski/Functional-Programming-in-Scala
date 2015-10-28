@@ -155,5 +155,24 @@ class ListSpec extends FreeSpec with Matchers {
     filterViaFlatMap(Nil: List[Int])(_ < 2) shouldBe Nil
   }
 
+  // Ex 3.22
+  "function `addCorrespondingElements` should return a list of sums of elements of two lists" in {
+    addCorrespondingElements(List(1,2,3),List(4,5,6)) shouldBe List(1+4, 2+5, 3+6)
+  }
+
+  // Ex 3.23
+  "function `zipWith` should combine corresponding elements of two lists" in {
+    zipWith(List(1,2,3),List(4,5,6))(_ + _) shouldBe List(1+4, 2+5, 3+6)
+  }
+
+  // Ex 3.24
+  "function `hasSubsequence` should return true if a list contains another list or false otherwise" in {
+    hasSubsequence(List(1,2,3,4,5), List(2,3,4)) shouldBe true
+    hasSubsequence(List(1,2,3,4,5), List(1,2)) shouldBe true
+    hasSubsequence(List(1,2,3,4,5), List(4,5)) shouldBe true
+    hasSubsequence(List(1,2,3,4,5), List(1,3)) shouldBe false
+    hasSubsequence(List(1,2,3,4,5), Nil) shouldBe true
+  }
+
 
 }
