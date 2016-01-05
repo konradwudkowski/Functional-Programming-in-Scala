@@ -28,12 +28,24 @@ case class Some[+A](get: A) extends Option[A]
 
 case object None extends Option[Nothing]
 
-object Functions {
+object Option {
+  
   def variance(xs: Seq[Double]): Option[Double] = {
     def mean(ys: Seq[Double]) = if(ys.isEmpty) None else Some( ys.sum / ys.length )
     mean(xs).flatMap { m =>
       mean(xs.map(x => math.pow(x-m,2)))
     }
   }
+
+  def map2[A,B,C](optionA: Option[A], optionB: Option[B])(f: (A, B) => C): Option[C] =
+    for {
+      a <- optionA
+      b <- optionB
+    } yield f(a,b)
+
+  def sequence[A](a: List[Option[A]]): Option[List[A]] = a.foldRight(Some(List()): Option[List[A]]) {
+    (current, acc) => current.flatMap { value => acc.map { list => value :: list } }
+  }
+  
 }
 
