@@ -30,4 +30,19 @@ class EitherSpec extends FreeSpec with Matchers {
     Left("foo").map2(Left("bar"))(f) shouldBe Left("foo")
   }
 
+  // Exercise 4.7 implement sequence and traverse that return the first error encountered
+
+  "Either::traverse" in {
+    Either.traverse(List(Right(1), Right(2), Right(3)))(_.map(_ + 1)) shouldBe Right(List(2,3,4))
+    Either.traverse(List(Right(1), Left(2)))(_.map(_ + 1)) shouldBe Left(2)
+
+    Either.traverseUsingFoldRight(List(Right(1), Right(2), Right(3)))(_.map(_ + 1)) shouldBe Right(List(2,3,4))
+    Either.traverseUsingFoldRight(List(Right(1), Left(2)))(_.map(_ + 1)) shouldBe Left(2)
+  }
+
+  "Either::sequence" in {
+    Either.sequence(List(Right(1),Right(2))) shouldBe Right(List(1,2))
+    Either.sequence(List(Right(1),Left(2))) shouldBe Left(2)
+  }
+
 }

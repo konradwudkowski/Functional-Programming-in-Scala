@@ -22,6 +22,21 @@ trait Either[+E, +A] extends Product with Serializable {
     case ( Right(x), left @ Left(_) ) => left
     case ( left @ Left(x), _ ) => left
   }
+
+}
+
+object Either {
+  def traverse[E, A, B](as: List[A])(f: A => Either[E, B]): Either[E, List[B]] = as match {
+    case Nil => Right(Nil)
+    case head :: tail => f(head).map2(traverse(tail)(f))(_ :: _)
+  }
+
+  def traverseUsingFoldRight[E, A, B](as: List[A])(f: A => Either[E, B]): Either[E, List[B]] =
+    as.foldRight(Right(List.empty[B]): Either[E, List[B]]) {
+      (current, acc) => f(current).map2(acc)(_ :: _)
+    }
+  
+  def sequence[E, A](es: List[Either[E, A]]): Either[E, List[A]] = traverse(es)(identity)
 }
 
 case class Left[+E](value: E) extends Either[E, Nothing]
