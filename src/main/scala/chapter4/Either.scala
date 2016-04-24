@@ -17,7 +17,11 @@ trait Either[+E, +A] extends Product with Serializable {
     case left @ Left(_) => b
   }
 
-//  def map2[EE >: E, B, C](b: Either[EE, B])(f: (A, B) => C): Either[EE, C]
+  def map2[EE >: E, B, C](b: Either[EE, B])(f: (A, B) => C): Either[EE, C] = (this,b) match {
+    case ( Right(x), Right(y) ) => Right( f(x,y) )
+    case ( Right(x), left @ Left(_) ) => left
+    case ( left @ Left(x), _ ) => left
+  }
 }
 
 case class Left[+E](value: E) extends Either[E, Nothing]
