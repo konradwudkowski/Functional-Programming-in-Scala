@@ -137,4 +137,24 @@ class StreamSpec extends FreeSpec with Matchers {
     Stream.unfold(5)( n => Some( (n*2,n*2) )).take(3).toList shouldBe List(10,20,40)
   }
 
+  // Ex. 5.12 Write fibs, from, constant, and ones in terms of unfold.
+
+  "Stream::fibsViaUnfold" in {
+    Stream.fibsViaUnfold.take(11).toList shouldBe List(0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55)
+  }
+
+  "Stream::fromViaUnfold" in {
+    Stream.fromViaUnfold(1).take(3).toList shouldBe List(1,2,3)
+    Stream.fromViaUnfold(-5).take(6).toList shouldBe List(-5, -4, -3, -2, -1, 0)
+  }
+
+  "Stream::constantViaUnfold" in {
+    Stream.constantViaUnfold(5).take(5).toList shouldBe List(5,5,5,5,5)
+    Stream.constantViaUnfold("konrad").take(2).toList shouldBe List("konrad","konrad")
+  }
+
+  "Stream::onesViaUnfold" in {
+    Stream.onesViaUnfold.take(5).toList shouldBe List(1,1,1,1,1)
+  }
+
 }
