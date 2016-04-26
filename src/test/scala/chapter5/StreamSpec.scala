@@ -74,7 +74,7 @@ class StreamSpec extends FreeSpec with Matchers {
   }
 
   // Ex. 5.7
-  // Implement map , filter , append , and flatMap using foldRight . The append method
+  // Implement map, filter, append, and flatMap using foldRight. The append method
   // should be non-strict in its argument.
 
   "Stream::map" in {
@@ -100,6 +100,41 @@ class StreamSpec extends FreeSpec with Matchers {
   "Stream::flatMap" in {
     Stream(1,2,3).flatMap(n => Stream(n, n * n)).toList shouldBe List(1, 1, 2, 4, 3, 9)
     Stream.empty[Int].flatMap(n => Stream(n, n * n)).toList shouldBe List()
+  }
+
+  // Ex 5.8
+  // Generalize ones slightly to the function constant, which returns an infinite Stream of
+  // a given value.
+
+  "Stream::constant" in {
+    Stream.constant(5).take(5).toList shouldBe List(5,5,5,5,5)
+    Stream.constant("konrad").take(2).toList shouldBe List("konrad","konrad")
+  }
+
+  // Ex 5.9
+  // Write a function that generates an infinite stream of integers, starting from n, then n
+  // + 1, n + 2, and so on. 7
+
+  "Stream::from" in {
+    Stream.from(1).take(3).toList shouldBe List(1,2,3)
+    Stream.from(-5).take(6).toList shouldBe List(-5, -4, -3, -2, -1, 0)
+  }
+
+  // Ex 5.10
+  // Write a function fibs that generates the infinite stream of Fibonacci numbers: 0, 1, 1,
+  // 2, 3, 5, 8, and so on.
+
+  "Stream::fibs" in {
+    Stream.fibs.take(11).toList shouldBe List(0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55)
+  }
+
+  // Ex 5.11
+  // Write a more general stream-building function called unfold. It takes an initial state,
+  // and a function for producing both the next state and the next value in the generated
+  // stream.
+
+  "Stream::unfold" in {
+    Stream.unfold(5)( n => Some( (n*2,n*2) )).take(3).toList shouldBe List(10,20,40)
   }
 
 }
