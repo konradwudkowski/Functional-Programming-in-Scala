@@ -157,4 +157,42 @@ class StreamSpec extends FreeSpec with Matchers {
     Stream.onesViaUnfold.take(5).toList shouldBe List(1,1,1,1,1)
   }
 
+  // Ex. 5.13
+  // Use unfold to implement map, take, takeWhile, zipWith (as in chapter 3), and
+  // zipAll. The zipAll function should continue the traversal as long as either stream
+  // has more elements—it uses Option to indicate whether each stream has been
+  // exhausted.
+
+  "Stream::mapViaUnfold" in {
+    Stream(1,2,3,4,5).mapViaUnfold(_ * 10).toList shouldBe List(10,20,30,40,50)
+  }
+
+  "Stream::takeViaUnfold" in {
+    Stream(1,2,3,4,5).takeViaUnfold(3).toList shouldBe List(1,2,3)
+  }
+
+  "Stream::takeWhileViaUnfold" in {
+    Stream(1,2,3,4,5).takeWhileViaUnfold(_ < 4).toList shouldBe List(1,2,3)
+  }
+
+  "Stream::zipWith" in {
+    Stream.zipWith(Stream(1,2,3,4,5), Stream(10,20,30))( (a,b) => a + b ).toList shouldBe List(11,22,33)
+  }
+
+  "Stream::zipAll" in {
+    Stream(1,2,3).zipAll( Stream(10) ).toList shouldBe List( Some(1) -> Some(10), Some(2) -> None, Some(3) -> None )
+    Stream(1).zipAll( Stream(10,20,30) ).toList shouldBe List( Some(1) -> Some(10), None -> Some(20), None -> Some(30) )
+  }
+
+  // Ex. 5.14
+  // Hard: Implement startsWith using functions you’ve written. It should check if one
+  // Stream is a prefix of another. For instance, Stream(1,2,3) startsWith Stream(1,2)
+  // would be true.
+
+  "Stream::startsWith" in {
+    Stream(1,2,3) startsWith Stream(1,2) shouldBe true
+    Stream(1,2,3) startsWith Stream(2) shouldBe false
+    Stream(1,2,3) startsWith Stream(1,2,3,4) shouldBe false
+  }
+
 }
