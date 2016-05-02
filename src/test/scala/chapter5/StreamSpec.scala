@@ -195,4 +195,15 @@ class StreamSpec extends FreeSpec with Matchers {
     Stream(1,2,3) startsWith Stream(1,2,3,4) shouldBe false
   }
 
+  // Ex 5.15
+  // Implement tails using unfold. For a given Stream, tails returns the Stream of suf-
+  // fixes of the input sequence, starting with the original Stream. For example, given
+  // Stream(1,2,3), it would return Stream(Stream(1,2,3), Stream(2,3), Stream(3),
+  // Stream()) .
+
+  "Stream::tails" in {
+    pending // how to assert this? overridden toString?
+    Stream(1,2,3).tails() shouldBe Stream(Stream(1,2,3), Stream(2,3), Stream(3), Stream())
+  }
+
 }
