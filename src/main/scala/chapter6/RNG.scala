@@ -44,6 +44,18 @@ object RNG {
     ( (double1, double2, double3), rng3)
   }
 
+  def ints(count: Int)(rng: RNG): (List[Int], RNG) = {
+    def go(c: Int, rng: RNG, list: List[Int]): (List[Int], RNG) = {
+      if (c <= 0) {
+        (list, rng)
+      } else {
+        val (nextInt, nextRng) = rng.nextInt
+        go(c-1, nextRng, nextInt :: list)
+      }
+    }
+    go(count, rng, List.empty[Int])
+  }
+
 }
 
 case class SimpleRNG(seed: Long) extends RNG {

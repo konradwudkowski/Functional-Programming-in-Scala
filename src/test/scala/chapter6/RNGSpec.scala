@@ -1,6 +1,7 @@
 package chapter6
 
 import chapter6.RNG._
+import org.scalacheck.{Arbitrary, Gen}
 import org.scalatest.prop.PropertyChecks
 import org.scalatest.{FreeSpec, Matchers}
 
@@ -32,6 +33,24 @@ class RNGSpec extends FreeSpec with Matchers with PropertyChecks {
       result should beBetween0And1
     }
   }
+
+  // Ex. 6.4
+  // Write a function to generate a list of random integers.
+  "RNG::ints" in {
+    val ints = Gen.choose(-50, 1000)
+    val longs = Arbitrary.arbitrary[Long]
+    var counter = 0
+    forAll(ints, longs) { (count: Int, seed: Long) =>
+      counter += 1
+      val size = RNG.ints(count)(new SimpleRNG(seed))._1.size
+      if (count <= 0) {
+        size shouldBe 0
+      } else {
+        size shouldBe count
+      }
+    }
+  }
+
 
 
 
