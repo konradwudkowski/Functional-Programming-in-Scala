@@ -1,5 +1,7 @@
 package chapter6
 
+import scala.annotation.tailrec
+
 trait RNG {
   def nextInt: (Int, RNG)
 }
@@ -8,6 +10,15 @@ object RNG {
   def double(rng: RNG): (Double, RNG) = {
     val (randomInt, nextRng) = rng.nextInt
     ( math.abs(randomInt.toDouble) / Int.MaxValue, nextRng)
+  }
+  @tailrec
+  def nonNegativeInt(rng: RNG): (Int, RNG) = {
+    val (randomInt, nextRng) = rng.nextInt
+    if (randomInt != Int.MinValue) {
+      math.abs(randomInt) -> nextRng
+    } else {
+      nonNegativeInt(nextRng)
+    }
   }
 }
 
